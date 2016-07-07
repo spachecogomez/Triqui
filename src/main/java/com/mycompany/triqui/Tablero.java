@@ -17,6 +17,8 @@ public class Tablero {
     private boolean turnoAgente = false;
 
     private String[][] tablero;
+    
+    private boolean terminado = false;
 
     private List<Tablero> siguiente;
 
@@ -33,16 +35,34 @@ public class Tablero {
     }
 
     public boolean isTerminado() {
-        if (tablero[0][0] != null && tablero[0][1] != null && tablero[0][2] != null && tablero[0][0].equals(tablero[0][1].equals(tablero[0][2]))) {
-            return true;
+        //Vertical
+        if (tablero[0][0] != null && tablero[1][0] != null && tablero[2][0] != null && tablero[0][0].equals(tablero[1][0]) && tablero[1][0].equals(tablero[2][0])) {
+            terminado =  true;
         }
-        if (tablero[1][0] != null && tablero[1][1] != null && tablero[1][2] != null && tablero[1][0].equals(tablero[1][1].equals(tablero[1][2]))) {
-            return true;
+        if (tablero[0][1] != null && tablero[1][1] != null && tablero[2][1] != null && tablero[0][1].equals(tablero[1][1]) && tablero[1][1].equals(tablero[2][1])) {
+            terminado =  true;
         }
-        if (tablero[2][0] != null && tablero[2][1] != null && tablero[2][2] != null && tablero[2][0].equals(tablero[2][1].equals(tablero[2][2]))) {
-            return true;
+        if (tablero[0][2] != null && tablero[1][2] != null && tablero[2][2] != null && tablero[0][2].equals(tablero[1][2]) && tablero[1][2].equals(tablero[2][2])) {
+            terminado =  true;
         }
-        return false;
+        //Horizontal
+        if (tablero[0][0] != null && tablero[0][1] != null && tablero[0][2] != null && tablero[0][0].equals(tablero[0][1]) && tablero[0][1].equals(tablero[0][2])) {
+            terminado =  true;
+        }
+        if (tablero[1][0] != null && tablero[1][1] != null && tablero[1][2] != null && tablero[1][0].equals(tablero[1][1]) && tablero[1][1].equals(tablero[1][2])) {
+            terminado =  true;
+        }
+        if (tablero[2][0] != null && tablero[2][1] != null && tablero[2][2] != null && tablero[2][0].equals(tablero[2][1]) && tablero[2][1].equals(tablero[2][2])) {
+            terminado =  true;
+        }
+        //Diagonal
+        if (tablero[0][0] != null && tablero[1][1] != null && tablero[2][2] != null && tablero[0][0].equals(tablero[1][1]) && tablero[1][1].equals(tablero[2][2])) {
+            terminado =  true;
+        }
+        if (tablero[2][0] != null && tablero[1][1] != null && tablero[0][2] != null && tablero[2][0].equals(tablero[1][1]) && tablero[1][1].equals(tablero[0][2])) {
+            terminado =  true;
+        }
+        return terminado;
     }
 
     public void imprimir() {
@@ -79,7 +99,7 @@ public class Tablero {
                 }
             }
         }
-        if (posiciones.length() > 0) {
+        if (posiciones.length() > 0 && !isTerminado()) {
             Tablero auxList;
             for (String auxJug : posiciones.toString().split(";")) {
                 if (!auxJug.isEmpty()) {
@@ -91,6 +111,8 @@ public class Tablero {
                         }
                     }
                     auxList.getTablero()[Integer.parseInt(auxJug.split(",")[0])][Integer.parseInt(auxJug.split(",")[1])] = isTurnoAgente() ? "o":"x";
+                    
+                    auxList.isTerminado();
                     siguiente.add(auxList);
                 }
             }

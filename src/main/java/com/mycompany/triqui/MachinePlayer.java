@@ -31,10 +31,8 @@ public class MachinePlayer {
             for(Tablero sig : tablero.getSiguiente()){
                 agente = !agente;
                 sig.setTurnoAgente(agente);
+                sig.isTerminado();
                 generarArbol(sig);
-                
-                System.out.println("Agente->"+agente);
-                
             }
         }
         
