@@ -11,26 +11,33 @@ import java.util.List;
  *
  * @author sebastian
  */
-public class MachinePlayer implements Runnable{
+public class MachinePlayer {
     
     private Tablero tablero;
     
-    private final String jugada = "o";
+    private String sigJugada;
+    
+    boolean agente = true;
     
     public MachinePlayer(Tablero tablero){
         this.tablero = tablero;
+        generarArbol(tablero);
     }
 
-    
-    
-    public void run() {
-        List<String[][]> siguiente = null;
-        while(!tablero.isTerminado()){
-            if(getTablero().isTurnoAgente()){
-                siguiente = getTablero().getSiguiente();
-                getTablero().setTurnoAgente(false);
+    public void generarArbol(Tablero tablero){
+        
+        if(tablero != null && tablero.getSiguiente().size() > 0){
+            tablero.setTurnoAgente(agente);
+            for(Tablero sig : tablero.getSiguiente()){
+                agente = !agente;
+                sig.setTurnoAgente(agente);
+                generarArbol(sig);
+                
+                System.out.println("Agente->"+agente);
+                
             }
         }
+        
     }
 
     /**
@@ -46,6 +53,21 @@ public class MachinePlayer implements Runnable{
     public void setTablero(Tablero tablero) {
         this.tablero = tablero;
     }
+
+    /**
+     * @return the sigJugada
+     */
+    public String getSigJugada() {
+        return sigJugada;
+    }
+
+    /**
+     * @param sigJugada the sigJugada to set
+     */
+    public void setSigJugada(String sigJugada) {
+        this.sigJugada = sigJugada;
+    }
+    
     
     
     

@@ -24,8 +24,6 @@ public class Main {
         frame.setLayout(new GridLayout(3, 3));
         frame.setSize(400, 400);
         MachinePlayer machinePlayer = new MachinePlayer(tablero);
-        Thread t = new Thread(machinePlayer);
-        t.start();
         JButton b00 = new JButton();
         JButton b01 = new JButton();
         JButton b02 = new JButton();

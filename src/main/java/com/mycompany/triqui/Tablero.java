@@ -18,7 +18,7 @@ public class Tablero {
 
     private String[][] tablero;
 
-    private List<String[][]> siguiente;
+    private List<Tablero> siguiente;
 
     public Tablero() {
         tablero = new String[3][3];
@@ -67,8 +67,8 @@ public class Tablero {
         this.turnoAgente = turnoAgente;
     }
 
-    public List<String[][]> getSiguiente() {
-        siguiente = new ArrayList<String[][]>();
+    public List<Tablero> getSiguiente() {
+        siguiente = new ArrayList<Tablero>();
         String[][] aux = new String[3][3];
         StringBuilder posiciones = new StringBuilder();
         for (int i = 0; i < 3; i++) {
@@ -79,24 +79,27 @@ public class Tablero {
                 }
             }
         }
-        String[][] auxList;
-        for (String auxJug : posiciones.toString().split(";")) {
-            System.out.println("Juagada->" + auxJug);
-            
-            auxList = new String[3][3];
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    auxList[i][j] = tablero[i][j];
+        if (posiciones.length() > 0) {
+            Tablero auxList;
+            for (String auxJug : posiciones.toString().split(";")) {
+                if (!auxJug.isEmpty()) {
+                    auxList = new Tablero();
+                    auxList.setTablero(new String[3][3]);
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            auxList.getTablero()[i][j] = tablero[i][j];
+                        }
+                    }
+                    auxList.getTablero()[Integer.parseInt(auxJug.split(",")[0])][Integer.parseInt(auxJug.split(",")[1])] = isTurnoAgente() ? "o":"x";
+                    siguiente.add(auxList);
                 }
             }
-            auxList[Integer.parseInt(auxJug.split(",")[0])][Integer.parseInt(auxJug.split(",")[1])] = "o";
-            siguiente.add(auxList);
         }
-
+        setTurnoAgente(!turnoAgente);
         return siguiente;
     }
 
-    public void setSiguiente(List<String[][]> siguiente) {
+    public void setSiguiente(List<Tablero> siguiente) {
         this.siguiente = siguiente;
     }
 
